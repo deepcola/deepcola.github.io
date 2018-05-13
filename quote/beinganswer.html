@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>星云付费答——成为回答者</title>
+	<style>
+textarea {resize: none;}
+#maintext {
+	 width:100%;
+	 font-size: 14px; 
+	 overflow: scroll; 
+	 border-top-left-radius: 0; 
+	 border-top-right-radius: 0;
+}
+</style>
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<!---<div class="col-md-12">
+			<h3>
+				首先，您需要一个密钥文件，以加密向您发起的提问。
+			</h3>
+			<div class="row">
+				<div class="col-md-6">
+					 
+					<button type="button" class="btn btn-success btn-block">
+						创建并保存密钥
+					</button>
+				</div>
+				<div class="col-md-6">
+					 
+					<button type="button" class="btn btn-success btn-block">
+						从文件提取密钥
+					</button>
+				</div>
+			</div>--->
+			<div class="col-md-12">
+			<h3>
+				填写您的信息
+			</h3>
+			</div>
+			<form role="form">
+				<div class="form-group">
+					 
+					<label for="exampleInputEmail1" >
+						您的昵称，提问者可以通过它搜索到您
+					</label>
+					<input type="email" class="form-control" id="username">
+				</div>
+				<div class="form-group">
+					 
+					<label for="exampleInputPassword1" >
+						个人简介
+					</label>
+					<div class="col-md-12">
+						<textarea rows="10" id="maintext">个人简介填写在这里</textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<p class="help-block">
+						填写完成后，点击注册就可以啦，如果你还没有安装浏览器插件钱包，请先安装后再使用
+					</p>
+				</div>
+				<button type="button" class="btn btn-primary" onclick="register()">
+					点击注册
+				</button>
+			</form>
+		</div>
+	</div>
+</div>
+	<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+	<script src=js/nebulas.js></script>
+	<script src="js/base64.js"></script>
+	<script>
+	var HttpRequest = require("nebulas").HttpRequest;
+	var Neb = require("nebulas").Neb;
+	var Account = require("nebulas").Account;
+	var Transaction = require("nebulas").Transaction;
+	var Unit = require("nebulas").Unit;
+	var myneb = new Neb();
+	myneb.setRequest(new HttpRequest("https://mainnet.nebulas.io"));
+	var account, tx, txhash;
+	var dapp_address="n1sHEdGnkkvk7ojs8hY6SkrRqJizPyuqFPv";
+	var UserInfomation=new Object();
+	function register()
+	{
+		var pay=$("#pay_value").val();
+		if(!pay)
+			pay="0";
+		var username=$("#username").val();
+		var publickey="";
+		var userintroduce=Base64.encode($("#maintext").val());
+		var publickey="";
+		var arguments =  "[\"" + username + "\",\"" + publickey + "\",\""+userintroduce + "\"]";
+        window.postMessage({
+            "target": "contentscript",
+            "data":{
+                "to" : dapp_address,
+                "value" : "0",
+                "contract" : {
+                    "function" : "register",
+                    "args" : arguments
+                }
+            },
+            "method": "neb_sendTransaction"
+        }, "*");
+	}
+	</script>
+  </body>
+</html>

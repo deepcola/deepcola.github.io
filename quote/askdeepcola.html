@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>星云付费答——提问</title>
+	<style>
+textarea {resize: none;}
+#maintext {
+	 width:100%;
+	 font-size: 14px; 
+	 overflow: scroll; 
+	 border-top-left-radius: 0; 
+	 border-top-right-radius: 0;
+}
+</style>
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<!---<h3>
+				在开始使用之前，你需要创建一个密钥，来加密和解密你的回答
+			</h3>
+			<div class="row">
+				<div class="col-md-6">
+					 
+					<button type="button" class="btn btn-success btn-block">
+						创建并保存密钥
+					</button>
+				</div>
+				<div class="col-md-6">
+					 
+					<button type="button" class="btn btn-success btn-block">
+						从文件中加载密钥
+					</button>
+				</div>
+			</div>  ----->
+			<div class="row">
+				<div class="col-md-12">
+					<h3>
+						搜索一个回答者
+					</h3>
+					<form role="form">
+						<div class="form-group">
+							 
+							<label for="exampleInputEmail1">
+								回答者ID
+							</label>
+							<input type="email" class="form-control" id="keyword">
+						</div>
+						<!---<div class="form-group">
+							 
+							<input type="file" class="form-control-file" id="exampleInputFile">
+						</div>--->
+						<div class="checkbox">
+						</div> 
+						<button type="button" class="btn btn-primary" onclick="searchuser()" >
+							点击搜索
+						</button>
+					</form> 
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<h3 id="username">
+						回答者的ID
+					</h3>
+					<p id="userintro">
+						这里是回答者的个人简介
+					</p> 
+					<div class="input-group input-group-lg" >
+						<input type="text" class="form-control" placeholder="您希望支付给作者的费用（单位Wei）默认为0" aria-describedby="sizing-addon1" id="pay_value">
+					</div>
+					<textarea rows="10" id="maintext">在这里输入你的问题</textarea>
+					<button type="button" class="btn btn-success btn-block" onclick="ask()">
+						点击向Ta提问
+					</button>
+					<a class="btn" href="searchorder.html">付款成功后，点这里查看你的订单信息</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+	<script src=js/nebulas.js></script>
+	<script src="js/base64.js"></script>
+	<script>
+	var HttpRequest = require("nebulas").HttpRequest;
+	var Neb = require("nebulas").Neb;
+	var Account = require("nebulas").Account;
+	var Transaction = require("nebulas").Transaction;
+	var Unit = require("nebulas").Unit;
+	var myneb = new Neb();
+	myneb.setRequest(new HttpRequest("https://mainnet.nebulas.io"));
+	var account, tx, txhash;
+	var dapp_address="n1sHEdGnkkvk7ojs8hY6SkrRqJizPyuqFPv";
+	var UserInfomation=new Object();
+	$(document).ready(function(){ 
+		$("#keyword").val("深水可乐");
+		searchuser();
+	}); 
+	function adduserinfo(userinfo)
+	{
+		//userinfo=userinfo.parse(userinfo);
+		$("#username").empty().append(UserInfomation.username+" 的个人简介");
+		$("#userintro").empty().append(Base64.decode(UserInfomation.introduction).replace(/\n/g,'<br/>'));
+	}
+	function searchuser()
+	{
+		username=$("#keyword").val();
+		console.log(username);
+		myneb.api.call({
+					from:dapp_address,
+                    to: dapp_address,
+                    value: 0,
+                    contract: {
+						function: "getuserinfo",
+						args: "[\""+username+"\"]"
+					},
+					   gasPrice: 1000000,
+						gasLimit: 2000000,
+                }).then(function(tx) {
+					console.log(tx);
+					console.log(tx.result);
+					if(tx.result=="Error: user not found")
+					{
+						alert("没有找到这个用户，请检查输入是否正确");
+					}
+					UserInfomation=JSON.parse(tx.result);
+					adduserinfo(JSON.parse(tx.result));
+				})
+	}
+	function ask()
+	{
+		var pay=$("#pay_value").val();
+		if(!pay)
+			pay="0";
+		var username=UserInfomation.username;;
+		var question=Base64.encode($("#maintext").val());
+		var publickey="";
+		var arguments =  "[\"" + username + "\",\"" + publickey + "\",\""+question + "\"]";
+        window.postMessage({
+            "target": "contentscript",
+            "data":{
+                "to" : dapp_address,
+                "value" : pay,
+                "contract" : {
+                    "function" : "ask",
+                    "args" : arguments
+                }
+            },
+            "method": "neb_sendTransaction"
+        }, "*");
+	}
+	</script>
+  </body>
+</html>
