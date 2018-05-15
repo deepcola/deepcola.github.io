@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>星云问答——查询订单</title>
+	<style>
+textarea {resize: none;}
+#maintext { width:100%;
+	 overflow: scroll; 
+	 border-top-left-radius: 0; 
+	 border-top-right-radius: 0;
+}
+</style>
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<h3>
+				填写回答者名称或订单号以搜索问题
+			</h3>
+			<div class="col-md-12">
+				<div class="input-group input-group-lg">
+					<input type="text" class="form-control" placeholder="填写钱包地址或订单号来搜索你的订单" aria-describedby="sizing-addon1" id="keyword">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					 
+					<button type="button" class="btn btn-success btn-block" onclick="searchbyusername()">
+						使用回答者名称搜索回答订单
+					</button>
+				</div>
+				<div class="col-md-4">
+					 
+					<button type="button" class="btn btn-success btn-block">
+						使用订单号搜索订单（暂不可用）
+					</button>
+				</div>
+				<!---<div class="col-md-4">
+					 
+					<button type="button" class="btn btn-success btn-block">
+						使用回答者名称搜索回答订单
+					</button>
+				</div>--->
+			</div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							订单流水号
+						</th>
+						<th>
+							提问者地址
+						</th>
+						<th>
+							提问时间
+						</th>
+						<th>
+							提问费用
+						</th>
+						<th>
+							状态
+						</th>
+						<th>
+							提问者操作
+						</th>
+						<th>
+							回答者操作
+						</th>
+						<th>
+							回答者操作
+						</th>
+					</tr>
+				</thead>
+				<tbody id="tablebody">
+					<tr>
+						<td>
+							1
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							01/04/2012
+						</td>
+						<td>
+							Default
+						</td>
+						<td>
+							等待回答
+						</td>
+						<td>
+							<button type="button" class="btn btn-success btn-block">
+								查看问题
+							</button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-success btn-block">
+								查看回答
+							</button>
+						
+						</td>
+						<td>
+							<button type="button" class="btn btn-success btn-block">
+								退款
+							</button>
+						</td>
+					</tr>
+					<tr class="table-active">
+						<td>
+							1
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							01/04/2012
+						</td>
+						<td>
+							Approved
+						</td>
+					</tr>
+					<tr class="table-success">
+						<td>
+							2
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							02/04/2012
+						</td>
+						<td>
+							Declined
+						</td>
+						<td>
+							已回答
+						</td>
+						<td>
+							<button type="button" class="btn btn-success btn-block">
+								查看问题
+							</button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-success btn-block">
+								查看回答
+							</button>
+						
+						</td>
+						<td>
+							<button type="button" class="btn btn-success btn-block">
+								退款
+							</button>
+						</td>
+					</tr>
+					<tr class="table-warning">
+						<td>
+							3
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							03/04/2012
+						</td>
+						<td>
+							Pending
+						</td>
+					</tr>
+					<tr class="table-danger">
+						<td>
+							4
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							04/04/2012
+						</td>
+						<td>
+							Call in to confirm
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<!---<nav>
+				<ul class="pagination">
+					<li class="page-item">
+						<a class="page-link" href="#">上一页</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">1</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">2</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">3</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">4</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">5</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">下一页</a>
+					</li>
+				</ul>
+			</nav>
+			<h3>
+				加载密钥文件以查看问题或回答
+			</h3>
+			<div class="row">
+				<div class="col-md-6">
+					 
+					<button type="button" class="btn btn-success btn-block">
+						从文件加载密钥（提问者）
+					</button>
+				</div>
+				<div class="col-md-6">
+					 
+					<button type="button" class="btn btn-success btn-block">
+						从文件加载密钥（回答者）
+					</button>
+
+			</div>--->
+			<h3 id="question_title">
+				问题/回答
+			</h3 >
+			<p id="question">
+				问题/回答正文
+			</p>
+			<textarea rows="10" id="maintext">在这里输入你的回答</textarea>
+			<button type="button" class="btn btn-success btn-block" onclick="answer()">
+						回答Ta的问题
+			</button>
+		</div>
+	</div>
+</div>
+	<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+	<script src=js/nebulas.js></script>
+	<script src="js/base64.js"></script>
+	<script>
+	var HttpRequest = require("nebulas").HttpRequest;
+	var Neb = require("nebulas").Neb;
+	var Account = require("nebulas").Account;
+	var Transaction = require("nebulas").Transaction;
+	var Unit = require("nebulas").Unit;
+	var myneb = new Neb();
+	myneb.setRequest(new HttpRequest("https://mainnet.nebulas.io"));
+	var account, tx, txhash;
+	var dapp_address="n1sHEdGnkkvk7ojs8hY6SkrRqJizPyuqFPv";
+	var UserInfomation=new Object();
+	$("#tablebody").empty();
+	var thisorder="";
+	function addtest()
+	{
+		$("#tablebody").empty();
+		var newrow=$("<tr></tr>").attr("class","table-success");  
+		newrow.append($("<td></td>").append("1"));
+		newrow.append($("<td></td>").append("1"));
+		var createtime=new Date("1403058804" * 1000);
+		newrow.append($("<td></td>").append(createtime.toLocaleDateString()));
+		newrow.append($("<td></td>").append("1"));
+		newrow.append($("<td></td>").append("1"));
+		newrow.append($("<td></td>").append($("<button></button>").attr("type","button").attr("class","btn btn-success btn-block").attr("onclick",'checkquestion("'+"123"+'")').append("查看问题")));
+		newrow.append($("<td></td>").append($("<button></button>").attr("type","button").attr("class","btn btn-success btn-block").append("查看回答")));
+		newrow.append($("<td></td>").append($("<button></button>").attr("type","button").attr("class","btn btn-danger btn-block").append("退款")));
+		$("#tablebody").append(newrow);
+	}
+	function addquestion(order)
+	{
+		//console.log(order);
+		thisorder=order.ordernumber;
+		$("#question_title").empty().append(order.ordernumber+"号订单的问题");
+		$("#question").empty().append(Base64.decode(order.question).replace(/\n/g,'<br/>'));
+	}
+	function checkquestion(ordernumber){
+		myneb.api.call({
+					from:dapp_address,
+                    to: dapp_address,
+                    value: 0,
+                    contract: {
+						function: "searchorder",
+						args: "[\""+ordernumber+"\"]"
+					},
+					   gasPrice: 1000000,
+						gasLimit: 2000000,
+                }).then(function(tx) {
+					console.log(tx);
+					addquestion(JSON.parse(tx.result));
+		})
+	}
+	function addanswer(order)
+	{
+		$("#question_title").empty().append(order.ordernumber+"号订单的回答");
+		$("#question").empty().append(Base64.decode(order.answer).replace(/\n/g,'<br/>'));
+	}
+	function checkanswer(ordernumber){
+		myneb.api.call({
+					from:dapp_address,
+                    to: dapp_address,
+                    value: 0,
+                    contract: {
+						function: "searchorder",
+						args: "[\""+ordernumber+"\"]"
+					},
+					   gasPrice: 1000000,
+						gasLimit: 2000000,
+                }).then(function(tx) {
+					console.log(tx);
+					addanswer(JSON.parse(tx.result));
+		})
+	}
+	function addorders(orders)
+	{
+		$("#tablebody").empty();
+		for(var t=0;t<orders.length;t++)
+		{
+			switch(orders[t].stat){
+			case "pending":var newrow=$("<tr></tr>");var status="待回答";break;
+			case "rejected":var newrow=$("<tr></tr>").attr("class","table-danger");var status="被拒绝";break;
+			case "answered":var newrow=$("<tr></tr>").attr("class","table-success");var status="已回答";break;
+			case "refunded":var newrow=$("<tr></tr>").attr("class","table-active");var status="已退款";break;
+			default:var newrow=$("<tr></tr>");var status="未知";
+			}
+			newrow.append($("<td></td>").append(orders[t].ordernumber));
+			newrow.append($("<td></td>").append(orders[t].address));
+			var createtime=new Date(orders[t].createtime * 1000);
+			newrow.append($("<td></td>").append(createtime.toLocaleDateString()));
+			newrow.append($("<td></td>").append(orders[t].value));
+			
+			newrow.append($("<td></td>").append(status));
+			newrow.append($("<td></td>").append($("<button></button>").attr("type","button").attr("class","btn btn-success btn-block").attr("onclick",'checkquestion("'+orders[t].ordernumber+'")').append("查看问题")));
+			newrow.append($("<td></td>").append($("<button></button>").attr("type","button").attr("class","btn btn-success btn-block").attr("onclick",'checkanswer("'+orders[t].ordernumber+'")').append("查看回答")));
+			if(orders[t].stat==="pending")
+				newrow.append($("<td></td>").append($("<button></button>").attr("type","button").attr("class","btn btn-danger btn-block").attr("onclick",'reject("'+orders[t].ordernumber+'")').append("拒绝回答")));
+			$("#tablebody").append(newrow);
+		}
+	}
+	function searchbyusername()
+	{
+		address=$("#keyword").val();
+		//console.log("111");
+		myneb.api.call({
+					from:dapp_address,
+                    to: dapp_address,
+                    value: 0,
+                    contract: {
+						function: "userlastordersget",
+						args: "[\""+address+"\",\""+"999"+"\"]"
+					},
+					   gasPrice: 10000000,
+						gasLimit: 20000000000,
+                }).then(function(tx) {
+					console.log(tx);
+					if(tx.result=="Error: user not found!"){
+						alert("没有找到这个作者，请检查输入是否正确或耐心等待十五秒再查找");
+						return;
+					}
+					addorders(JSON.parse(tx.result));
+				})
+	}
+	function reject(ordernumber)
+	{
+		var publickey="";
+		var answer=Base64.encode("作者拒绝回答，理由："+$("#maintext").val());
+		var arguments =  "[\"" + ordernumber + "\",\""+answer + "\"]";
+        window.postMessage({
+            "target": "contentscript",
+            "data":{
+                "to" : dapp_address,
+                "value" : "0",
+                "contract" : {
+                    "function" : "reject",
+                    "args" : arguments
+                }
+            },
+            "method": "neb_sendTransaction"
+        }, "*");
+	}
+	function answer()
+	{
+		var ordernumber=thisorder;
+		var answer=Base64.encode($("#maintext").val());
+		var publickey="";
+		var arguments =  "[\"" + ordernumber + "\",\""+answer + "\"]";
+        window.postMessage({
+            "target": "contentscript",
+            "data":{
+                "to" : dapp_address,
+                "value" : "0",
+                "contract" : {
+                    "function" : "answer",
+                    "args" : arguments
+                }
+            },
+            "method": "neb_sendTransaction"
+        }, "*");
+	}
+	</script>
+  </body>
+</html>
